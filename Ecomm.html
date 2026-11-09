@@ -1,109 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+
+    <title>Equal's - E-commerce Website</title>
+
+    <!-- CSS File -->
     <link rel="stylesheet" href="Ecomm.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css" integrity="sha512-x9WwyMYBnlXMNQ6kQ/Lyzu1NqIhLQKL5Oq6xByfXuRj7s9CskyCbLv/1IjqzJmXwFXWr0ov6jBV7Qbc0hh9nHg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- JavaScript File -->
     <script src="Ecomm.js" defer></script>
 </head>
+
 <body>
+
     <div class="container">
+
+        <!-- Navbar -->
         <nav>
+
             <div class="logo">
                 <h1>Equal's</h1>
             </div>
+
             <ul>
                 <li><a href="#home">HOME</a></li>
                 <li><a href="#shop">SHOP</a></li>
                 <li><a href="#gallery">GALLERY</a></li>
-                <li><a href="contact">CONTACT</a></li>
+                <li><a href="#contact">CONTACT</a></li>
             </ul>
-            <div class="searcBar"> 
-            <input type="text" placeholder="Search Here.">
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </div>
-        <div class="cartItems">
 
-        </div>
-        <div class="cart">
-            <p id="cartNum">0</p>
-            <i class="fa-solid fa-cart-shopping"></i>
-        </div>
+            <div class="searcBar">
+                <input type="text" placeholder="Search Here." id="search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+
+            <div class="cartItems"></div>
+
+            <div class="cart">
+                <p id="cartNum">0</p>
+                <i class="fa-solid fa-cart-shopping"></i>
+            </div>
+
         </nav>
-        <div class="main">
-            <div class="mainText"><h1>
-                On Sale Upto <br> 50% OFF</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>
-                 Voluptatem neque nostrum iusto, a ad, architecto <br>
-                  voluptatibus doloribus rerum aliquid sit adipisci! Perferendis, praesentium.</p>
-                  <button>Shop Now</button>
+
+        <!-- Home Section -->
+        <div class="main" id="home">
+
+            <div class="mainText">
+
+                <h1>
+                    On Sale Upto <br>
+                    50% OFF
+                </h1>
+
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Voluptatem neque nostrum iusto, a ad, architecto
+                    voluptatibus doloribus rerum aliquid sit adipisci!
+                    Perferendis, praesentium.
+                </p>
+
+                <button>Shop Now</button>
+
             </div>
-            <img src="hell.jpg" alt="">
+
+            <img src="hell.jpg" alt="Featured Sale Collection">
+
         </div>
 
+        <!-- Shop Section -->
         <div id="shop">
+
             <div class="head">
-                <h1>Most Awaited Item's</h1>
+                <h1>Most Awaited Items</h1>
             </div>
+
             <div class="shops">
+
                 <div class="card">
-                    <img src="1.jpg" alt="">
-                    <button>Add to cart</button>
+                    <img src="1.jpg" alt="Product 1">
+                    <button>Add to Cart</button>
                     <p>Quick View</p>
                 </div>
+
                 <div class="card">
-                    <img src="2.jpg" alt="">
-                    <button>Add to cart</button>
+                    <img src="2.jpg" alt="Product 2">
+                    <button>Add to Cart</button>
                     <p>Quick View</p>
                 </div>
+
                 <div class="card">
-                    <img src="3.jpg" alt="">
-                    <button>Add to cart</button>
+                    <img src="3.jpg" alt="Product 3">
+                    <button>Add to Cart</button>
                     <p>Quick View</p>
                 </div>
+
                 <div class="card">
-                    <img src="4.jpg" alt="">
-                    <button>Add to cart</button>
+                    <img src="4.jpg" alt="Product 4">
+                    <button>Add to Cart</button>
                     <p>Quick View</p>
                 </div>
+
                 <div class="card">
-                    <img src="5.jpg" alt="">
-                    <button>Add to cart</button>
+                    <img src="5.jpg" alt="Product 5">
+                    <button>Add to Cart</button>
                     <p>Quick View</p>
                 </div>
+
                 <div class="card">
-                    <img src="6.jpg" alt="">
-                    <button>Add to cart</button>
+                    <img src="6.jpg" alt="Product 6">
+                    <button>Add to Cart</button>
                     <p>Quick View</p>
                 </div>
+
             </div>
         </div>
+
+        <!-- Gallery Section -->
         <div id="gallery">
+
             <div class="head">
                 <h1>Trends Gallery</h1>
             </div>
+
             <div class="gallery">
-                <img src="g1.webp" alt="">
-                <img src="g2.webp" alt="">
-                <img src="g3.webp" alt="">
-                <img src="g4.webp" alt="">
-                <img src="g5.webp" alt="">
-                <img src="g6.webp" alt="">
+
+                <img src="g1.webp" alt="Gallery Image 1">
+                <img src="g2.webp" alt="Gallery Image 2">
+                <img src="g3.webp" alt="Gallery Image 3">
+                <img src="g4.webp" alt="Gallery Image 4">
+                <img src="g5.webp" alt="Gallery Image 5">
+                <img src="g6.webp" alt="Gallery Image 6">
+
             </div>
         </div>
+
+        <!-- Contact Section -->
         <div id="contact">
+
             <div class="head">
                 <h1>Contact Us</h1>
             </div>
+
             <div class="connect">
-                <input type="text" placeholder="Enter ur Email" id="email">
-                <input type="Password" placeholder="Enter ur Password" id="password">
-                <button id="submit">Submit</button>
+
+                <input
+                    type="email"
+                    placeholder="Enter your Email"
+                    id="email"
+                >
+
+                <input
+                    type="password"
+                    placeholder="Enter your Password"
+                    id="password"
+                >
+
+                <button id="submit" type="button">Submit</button>
+
             </div>
         </div>
+
+        <!-- Footer -->
         <div class="footer">
+
             <div class="text">
                 <h2>First Choice</h2>
                 <p>Trends</p>
@@ -111,7 +178,7 @@
                 <p>Offer</p>
                 <p>Quality</p>
             </div>
-         
+
             <div class="text">
                 <h2>Customer</h2>
                 <p>Best Price</p>
@@ -119,7 +186,7 @@
                 <p>Order</p>
                 <p>Price</p>
             </div>
-         
+
             <div class="text">
                 <h2>Contact Us</h2>
                 <p>Youtube</p>
@@ -127,22 +194,26 @@
                 <p>Twitter</p>
                 <p>Facebook</p>
             </div>
+
             <div class="text">
-                <h2>Contact Us</h2>
-                <p>Youtube</p>
-                <p>LinkedIn</p>
-                <p>Twitter</p>
-                <p>Facebook</p>
+                <h2>Our Services</h2>
+                <p>Online Shopping</p>
+                <p>Fast Delivery</p>
+                <p>Easy Returns</p>
+                <p>Customer Support</p>
             </div>
+
             <div class="text">
-                <h2>Contact Us</h2>
-                <p>Youtube</p>
-                <p>LinkedIn</p>
-                <p>Twitter</p>
-                <p>Facebook</p>
+                <h2>About Us</h2>
+                <p>Our Story</p>
+                <p>Our Products</p>
+                <p>Privacy Policy</p>
+                <p>Terms & Conditions</p>
             </div>
-       
+
         </div>
+
     </div>
+
 </body>
-</html>
+    </html>
