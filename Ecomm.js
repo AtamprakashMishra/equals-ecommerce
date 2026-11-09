@@ -1,8 +1,9 @@
-// ===================================
+// ======================================
 // EQUAL'S E-COMMERCE WEBSITE
-// ===================================
+// ======================================
 
-// Select Elements
+
+// SELECT ELEMENTS
 const cards = document.querySelectorAll(".card");
 
 const search = document.getElementById("search");
@@ -18,21 +19,29 @@ const wishlistItems = document.getElementById("wishlistItems");
 
 const cartNum = document.getElementById("cartNum");
 const wishlistNum = document.getElementById("wishlistNum");
-const cartTotal = document.getElementById("cartTotal");
 
+const cartTotal = document.getElementById("cartTotal");
 const overlay = document.getElementById("overlay");
 
 const quickModal = document.getElementById("quickModal");
 const checkoutModal = document.getElementById("checkoutModal");
 
 
-// ===================================
+// ======================================
 // LOCAL STORAGE
-// ===================================
+// ======================================
 
-let cart = JSON.parse(localStorage.getItem("equalsCart")) || [];
+function loadData(key) {
+    try {
+        const data = JSON.parse(localStorage.getItem(key));
+        return Array.isArray(data) ? data : [];
+    } catch (error) {
+        return [];
+    }
+}
 
-let wishlist = JSON.parse(localStorage.getItem("equalsWishlist")) || [];
+let cart = loadData("equalsCart");
+let wishlist = loadData("equalsWishlist");
 
 function saveData() {
     localStorage.setItem("equalsCart", JSON.stringify(cart));
@@ -40,61 +49,87 @@ function saveData() {
 }
 
 
-// ===================================
-// MODAL AND PANEL FUNCTIONS
-// ===================================
+// ======================================
+// OPEN AND CLOSE PANELS
+// ======================================
 
 function closeAll() {
+
     document.querySelectorAll(".side-panel, .modal")
-        .forEach(element => element.classList.remove("active"));
+        .forEach(element => {
+            element.classList.remove("active");
+        });
 
     overlay.classList.remove("active");
 }
 
 function openPanel(panel) {
+
     closeAll();
+
     panel.classList.add("active");
+
     overlay.classList.add("active");
 }
 
+
+// CART BUTTON
 document.getElementById("cartToggle").addEventListener("click", () => {
+
     openPanel(cartPanel);
+
 });
 
+
+// WISHLIST BUTTON
 document.getElementById("wishlistToggle").addEventListener("click", () => {
+
     openPanel(wishlistPanel);
+
 });
 
+
+// CLOSE BUTTONS
 document.querySelectorAll("[data-close]").forEach(button => {
+
     button.addEventListener("click", closeAll);
+
 });
 
+
+// OVERLAY CLICK
 overlay.addEventListener("click", closeAll);
 
+
+// ESCAPE KEY
 document.addEventListener("keydown", event => {
-    if (event.key === "Escape") closeAll();
+
+    if (event.key === "Escape") {
+        closeAll();
+    }
+
 });
 
 
-// ===================================
-// GET PRODUCT INFORMATION
-// ===================================
+// ======================================
+// GET PRODUCT DETAILS
+// ======================================
 
 function getProduct(card) {
+
     return {
         name: card.dataset.name,
         price: Number(card.dataset.price),
         category: card.dataset.category,
         image: card.querySelector("img").getAttribute("src")
     };
+
 }
 
 
-// ===================================
+// ======================================
 // FEATURE 1: SEARCH AND FILTER
-// ===================================
-
-const shops = document.querySelector(".shops");
+// ======================================
 
 function filterProducts() {
 
@@ -108,9 +143,11 @@ function filterProducts() {
 
     let productCards = Array.from(cards);
 
+    // SORT PRODUCTS
     productCards.sort((a, b) => {
 
         const priceA = Number(a.dataset.price);
+
         const priceB = Number(b.dataset.price);
 
         if (sortValue === "low-high") {
@@ -122,7 +159,9 @@ function filterProducts() {
         }
 
         return 0;
+
     });
+
 
     productCards.forEach(card => {
 
@@ -152,21 +191,28 @@ function filterProducts() {
             matchPrice = price > 500;
         }
 
-        card.style.display =
-            matchSearch && matchCategory && matchPrice
-                ? ""
-                : "none";
+        const visible =
+            matchSearch && matchCategory && matchPrice;
+
+        card.style.display = visible ? "" : "none";
 
         shops.appendChild(card);
+
     });
 
-    const visibleProducts = productCards.some(card =>
-        card.style.display !== "none"
-    );
+
+    const visibleProducts = productCards.some(card => {
+
+        return card.style.display !== "none";
+
+    });
 
     document.getElementById("noProducts").style.display =
         visibleProducts ? "none" : "block";
+
 }
+
+const shops = document.querySelector(".shops");
 
 search.addEventListener("input", filterProducts);
 
@@ -177,71 +223,100 @@ priceFilter.addEventListener("change", filterProducts);
 sortFilter.addEventListener("change", filterProducts);
 
 
-// ===================================
+// ======================================
 // ADD TO CART
-// ===================================
+// ======================================
 
 function addToCart(product) {
 
-    const existingProduct = cart.find(
-        item => item.name === product.name
-    );
+    const existingProduct = cart.find(item => {
+
+        return item.name === product.name;
+
+    });
 
     if (existingProduct) {
+
         existingProduct.quantity++;
+
     } else {
+
         cart.push({
             ...product,
             quantity: 1
         });
+
     }
 
     saveData();
+
     renderCart();
+
+    // AUTOMATICALLY OPEN CART
+    openPanel(cartPanel);
 
 }
 
 
-// ===================================
-// FEATURE 4: CART QUANTITY
-// ===================================
+// ======================================
+// FEATURE 4: QUANTITY UPDATE
+// ======================================
 
 function changeQuantity(name, change) {
 
-    const product = cart.find(item => item.name === name);
+    const product = cart.find(item => {
+
+        return item.name === name;
+
+    });
 
     if (!product) return;
 
     product.quantity += change;
 
     if (product.quantity <= 0) {
-        cart = cart.filter(item => item.name !== name);
+
+        cart = cart.filter(item => {
+
+            return item.name !== name;
+
+        });
+
     }
 
     saveData();
+
     renderCart();
+
 }
 
 
-// Remove Product
+// REMOVE CART ITEM
 function removeFromCart(name) {
 
-    cart = cart.filter(item => item.name !== name);
+    cart = cart.filter(item => {
+
+        return item.name !== name;
+
+    });
 
     saveData();
+
     renderCart();
+
 }
 
 
-// ===================================
+// ======================================
 // CART DISPLAY
-// ===================================
+// ======================================
 
 function renderCart() {
 
     cartItems.innerHTML = "";
 
     let total = 0;
+
     let totalQuantity = 0;
 
     cart.forEach(product => {
@@ -255,13 +330,13 @@ function renderCart() {
         div.className = "cart-product";
 
         div.innerHTML = `
-            <img src="${product.image}" alt="${product.name}">
+            <img alt="Product">
 
             <div class="cart-details">
 
                 <h4></h4>
 
-                <p>$${product.price}</p>
+                <p></p>
 
                 <div class="quantity">
 
@@ -280,23 +355,35 @@ function renderCart() {
             </button>
         `;
 
+        div.querySelector("img").src = product.image;
+
         div.querySelector("h4").textContent = product.name;
 
+        div.querySelector(".cart-details p").textContent =
+            "$" + product.price;
+
         div.querySelector(".minus").addEventListener("click", () => {
+
             changeQuantity(product.name, -1);
+
         });
 
         div.querySelector(".plus").addEventListener("click", () => {
+
             changeQuantity(product.name, 1);
+
         });
 
         div.querySelector(".remove-item").addEventListener("click", () => {
+
             removeFromCart(product.name);
+
         });
 
         cartItems.appendChild(div);
 
     });
+
 
     cartNum.textContent = totalQuantity;
 
@@ -308,48 +395,47 @@ function renderCart() {
     document.getElementById("checkoutBtn").disabled =
         cart.length === 0;
 
+
     if (cart.length === 0) {
+
         cartItems.innerHTML = "<p>Your cart is empty!</p>";
+
     }
 
 }
 
 
-// Add Button Events
+// ADD BUTTON EVENTS
 cards.forEach(card => {
 
-    const addButton = card.querySelector(".add-btn");
-
-    addButton.addEventListener("click", () => {
+    card.querySelector(".add-btn").addEventListener("click", () => {
 
         addToCart(getProduct(card));
-
-        addButton.textContent = "Added!";
-
-        setTimeout(() => {
-            addButton.textContent = "Add to Cart";
-        }, 800);
 
     });
 
 });
 
 
-// ===================================
+// ======================================
 // FEATURE 2: WISHLIST
-// ===================================
+// ======================================
 
 function toggleWishlist(product) {
 
-    const existing = wishlist.find(
-        item => item.name === product.name
-    );
+    const existingProduct = wishlist.find(item => {
 
-    if (existing) {
+        return item.name === product.name;
 
-        wishlist = wishlist.filter(
-            item => item.name !== product.name
-        );
+    });
+
+    if (existingProduct) {
+
+        wishlist = wishlist.filter(item => {
+
+            return item.name !== product.name;
+
+        });
 
     } else {
 
@@ -358,12 +444,18 @@ function toggleWishlist(product) {
     }
 
     saveData();
+
     renderWishlist();
 
     updateWishlistButtons();
 
+    // AUTOMATICALLY OPEN WISHLIST
+    openPanel(wishlistPanel);
+
 }
 
+
+// UPDATE HEART ICONS
 function updateWishlistButtons() {
 
     cards.forEach(card => {
@@ -374,9 +466,11 @@ function updateWishlistButtons() {
 
         const icon = button.querySelector("i");
 
-        const isSaved = wishlist.some(
-            item => item.name === productName
-        );
+        const isSaved = wishlist.some(item => {
+
+            return item.name === productName;
+
+        });
 
         button.classList.toggle("active", isSaved);
 
@@ -388,6 +482,8 @@ function updateWishlistButtons() {
 
 }
 
+
+// DISPLAY WISHLIST
 function renderWishlist() {
 
     wishlistItems.innerHTML = "";
@@ -408,12 +504,16 @@ function renderWishlist() {
         div.className = "wishlist-product";
 
         div.innerHTML = `
-            <img src="${product.image}" alt="${product.name}">
+            <img alt="Product">
 
             <div class="cart-details">
+
                 <h4></h4>
-                <p>$${product.price}</p>
+
+                <p></p>
+
                 <button class="add-btn">Add to Cart</button>
+
             </div>
 
             <button class="remove-item">
@@ -421,21 +521,37 @@ function renderWishlist() {
             </button>
         `;
 
+        div.querySelector("img").src = product.image;
+
         div.querySelector("h4").textContent = product.name;
 
+        div.querySelector(".cart-details p").textContent =
+            "$" + product.price;
+
+
+        // ADD FROM WISHLIST
         div.querySelector(".add-btn").addEventListener("click", () => {
+
             addToCart(product);
-            openPanel(cartPanel);
+
         });
 
+
+        // REMOVE FROM WISHLIST
         div.querySelector(".remove-item").addEventListener("click", () => {
-            wishlist = wishlist.filter(
-                item => item.name !== product.name
-            );
+
+            wishlist = wishlist.filter(item => {
+
+                return item.name !== product.name;
+
+            });
 
             saveData();
+
             renderWishlist();
+
             updateWishlistButtons();
+
         });
 
         wishlistItems.appendChild(div);
@@ -444,6 +560,8 @@ function renderWishlist() {
 
 }
 
+
+// HEART BUTTON EVENTS
 cards.forEach(card => {
 
     card.querySelector(".wish-btn").addEventListener("click", () => {
@@ -455,9 +573,9 @@ cards.forEach(card => {
 });
 
 
-// ===================================
+// ======================================
 // FEATURE 3: QUICK VIEW
-// ===================================
+// ======================================
 
 let selectedProduct = null;
 
@@ -482,22 +600,24 @@ cards.forEach(card => {
 
 });
 
+
+// QUICK VIEW ADD BUTTON
 document.getElementById("quickAdd").addEventListener("click", () => {
 
     if (selectedProduct) {
 
         addToCart(selectedProduct);
 
-        closeAll();
+        selectedProduct = null;
 
     }
 
 });
 
 
-// ===================================
+// ======================================
 // FEATURE 5: CHECKOUT
-// ===================================
+// ======================================
 
 document.getElementById("checkoutBtn").addEventListener("click", () => {
 
@@ -509,33 +629,43 @@ document.getElementById("checkoutBtn").addEventListener("click", () => {
 
     }
 
+    const total = cart.reduce((sum, item) => {
+
+        return sum + item.price * item.quantity;
+
+    }, 0);
+
     document.getElementById("checkoutTotal").textContent =
-        cart.reduce((sum, item) =>
-            sum + item.price * item.quantity, 0
-        ).toFixed(2);
+        total.toFixed(2);
 
     openPanel(checkoutModal);
 
 });
 
+
+// PLACE ORDER
 document.getElementById("checkoutForm").addEventListener("submit", event => {
 
     event.preventDefault();
 
     if (cart.length === 0) {
+
         alert("Your cart is empty!");
+
         return;
+
     }
 
-    const name = document.getElementById("customerName").value;
+    const name = document.getElementById("customerName").value.trim();
 
-    const email = document.getElementById("customerEmail").value;
+    const email = document.getElementById("customerEmail").value.trim();
 
-    const address = document.getElementById("customerAddress").value;
+    const address = document.getElementById("customerAddress").value.trim();
 
     const payment = document.getElementById("paymentMethod").value;
 
-    if (!name.trim() || !email.trim() || !address.trim() || !payment) {
+
+    if (!name || !email || !address || !payment) {
 
         alert("Please fill all details!");
 
@@ -543,17 +673,35 @@ document.getElementById("checkoutForm").addEventListener("submit", event => {
 
     }
 
-    const orderNumber = "EQ" + Date.now().toString().slice(-8);
+    const emailInput = document.getElementById("customerEmail");
+
+    if (!emailInput.checkValidity()) {
+
+        alert("Please enter a valid email!");
+
+        return;
+
+    }
+
+
+    const total = cart.reduce((sum, item) => {
+
+        return sum + item.price * item.quantity;
+
+    }, 0);
+
+    const orderNumber =
+        "EQ" + Date.now().toString().slice(-8);
+
 
     alert(
         "Order placed successfully!\n\n" +
         "Order ID: " + orderNumber +
         "\nCustomer: " + name +
-        "\nTotal: $" + cart.reduce((sum, item) =>
-            sum + item.price * item.quantity, 0
-        ).toFixed(2) +
+        "\nTotal: $" + total.toFixed(2) +
         "\nPayment: " + payment
     );
+
 
     cart = [];
 
@@ -568,15 +716,16 @@ document.getElementById("checkoutForm").addEventListener("submit", event => {
 });
 
 
-// ===================================
+// ======================================
 // CONTACT FORM
-// ===================================
+// ======================================
 
 document.getElementById("submit").addEventListener("click", () => {
 
     const email = document.getElementById("email");
 
     const password = document.getElementById("password");
+
 
     if (email.value.trim() === "" || password.value.trim() === "") {
 
@@ -591,6 +740,7 @@ document.getElementById("submit").addEventListener("click", () => {
         alert("Thank you for contacting Equal's!");
 
         email.value = "";
+
         password.value = "";
 
     }
@@ -598,9 +748,9 @@ document.getElementById("submit").addEventListener("click", () => {
 });
 
 
-// ===================================
+// ======================================
 // INITIALIZE WEBSITE
-// ===================================
+// ======================================
 
 renderCart();
 
@@ -609,3 +759,5 @@ renderWishlist();
 updateWishlistButtons();
 
 filterProducts();
+
+console.log("Equal's E-Commerce Website Loaded Successfully!");
